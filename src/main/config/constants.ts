@@ -7,4 +7,5 @@ export const constants = {
   redirect_uri: REDIRECT_URI,
   port: PORT,
   client_secret:CLIENT_SECRET,
+  scope: ["user-read-private user-read-email"],
 };

@@ -3,7 +3,7 @@ import { AuthorizeSpotifyUseCase } from "../../domain/usecases/AuthorizeSpotifyU
 import { IController } from "../protocols";
 
 class AuthorizeSpotifyController implements IController {
-  handle(req: Request, res: Response) {
+  handle(_req: Request, res: Response) {
     const authorizeSpotifyUseCase = new AuthorizeSpotifyUseCase();
 
     const urlAuthorize = authorizeSpotifyUseCase.authorize();

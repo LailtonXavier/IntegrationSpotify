@@ -1,30 +1,26 @@
 import { constants } from "../../main/config/constants";
-import axios from "axios";
-import oauth from "axios-oauth-client";
-import { Request, Response } from "express";
+import fetch from "cross-fetch";
+
+export type ResponseAccesToken = {
+  access_token: string;
+  refresh_token: string;
+};
 
 class TokenSpotifyUseCase {
-  async accessToken(code: string) {
-    const { redirect_uri, client_id, client_secret } = constants;
-    await axios
-      .request({
-        url: "/api/token",
-        method: "post",
-        baseURL: "https://accounts.spotify.com",
-        data: {
-          grant_type: "authorization_code",
-          code,
-          redirect_uri,
-        },
-        headers: {
-          Authorization:
-            "Basic " +
-            new Buffer(client_id + ":" + client_secret).toString("base64"),
-        },
-      })
-      .then((respose) => {
-        console.log(respose);
-      });
+  async accessToken(code: string): Promise<ResponseAccesToken> {
+    const { client_id, client_secret, redirect_uri } = constants;
+    const result = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Basic " + btoa(client_id + ":" + client_secret),
+      },
+      body: `code=${code}&redirect_uri=${redirect_uri}&grant_type=authorization_code`,
+    });
+
+    const { access_token, refresh_token } = await result.json();
+
+    return { access_token, refresh_token };
   }
 }
 
