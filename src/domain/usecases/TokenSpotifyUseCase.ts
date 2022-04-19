@@ -13,7 +13,8 @@ class TokenSpotifyUseCase {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Basic " + btoa(client_id + ":" + client_secret),
+        Authorization: "Basic " + Buffer.from(client_id + ":" + client_secret)
+        .toString('base64'),
       },
       body: `code=${code}&redirect_uri=${redirect_uri}&grant_type=authorization_code`,
     });

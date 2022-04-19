@@ -11,7 +11,7 @@ class CallbackSpotifyController implements IController {
     const { access_token, refresh_token } =
       await tokenSpotifyUseCase.accessToken(String(code));
 
-    res.send(`AccessToken: ${access_token} --- refresh_token: ${refresh_token}`);
+    res.json({access_token, refresh_token});
   }
 }
 
